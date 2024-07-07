@@ -11,6 +11,7 @@ if exists("g:sttabline_loaded")
 endif
 
 g:sttabline_loaded = true
+g:sttabline_align  = ""
 
 # Tabline highlight properties for sttabline
 hi clear TabLine
@@ -60,7 +61,13 @@ def g:Sttabline(): string
 	var content: string = ""
 	var curridx: number = tabpagenr()
 	
-	content ..= "%#TabLineFill#%=%#TabLine#:"
+	content ..= "%#TabLineFill#"
+	
+	if g:sttabline_align == "center" || g:sttabline_align == "right"
+		content ..= "%="
+	endif
+	
+	content ..= "%#TabLine#:"
 	
 	for tab in range(1, tabpagenr('$'))
 		if tab == curridx
@@ -71,6 +78,10 @@ def g:Sttabline(): string
 	endfor
 	
 	content ..= ":"
+	
+	if g:sttabline_align == "center"
+		content ..= "%="
+	endif
 	
 	return content
 enddef
